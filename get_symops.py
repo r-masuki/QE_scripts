@@ -3,6 +3,7 @@ from pymatgen.core import Structure
 
 from spglib import get_symmetry_dataset, get_spacegroup_type
 from spglib import get_magnetic_symmetry_dataset, get_magnetic_spacegroup_type  # develop branch
+from spinspg import get_spin_symmetry
 
 from ase import Atoms
 from ase.io import read
@@ -238,3 +239,20 @@ for isym in range(nsym):
     print("Time reversal :", dataset_as_noncollinear["time_reversals"][isym])
 
 
+# Find spin symmetry operations
+sog, rotations, translations, spin_rotations = get_spin_symmetry(
+    lattice, positions, numbers, magmoms
+)
+nsym = len(rotations)
+
+print(f"Spin-only group: {sog}")
+
+# Some operations have nontrivial spin rotations
+for isym in range(nsym):
+    print(f"Spin symmetry operation : {isym}")
+    print("Rotation :")
+    print(rotations[isym])
+    print("Translation :")
+    print(translations[isym])
+    print("Spin rotation :")
+    print(spin_rotations[isym])
