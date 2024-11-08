@@ -187,7 +187,6 @@ filename = args[1]
 
 qe_namelists = parse_namelist(filename, ["control", "system", "electrons"])
 qe_cards = parse_qe_cards(filename)
-print(qe_namelists)
 
 # print(qe_namelists["system"].keys())
 # print(qe_cards["atomic_species"])
