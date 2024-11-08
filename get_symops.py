@@ -29,6 +29,7 @@ def parse_namelist(file_path, namelist_names):
             # Check if the line starts a new namelist
             if line.startswith('&'):
                 current_namelist = line[1:]
+                current_namelist = current_namelist.lower()
                 if current_namelist in namelist_names:
                     namelists[current_namelist] = {}
                 else:
@@ -88,7 +89,7 @@ def parse_qe_cards(file_path):
                 raise ValueError(f'Invalid line in ATOMIC_SPECIES card: {line}')
         elif current_card == 'ATOMIC_POSITIONS':
             parts = line.split()
-            if len(parts) == 4:
+            if len(parts) >= 4:
                 element = parts[0]
                 position = list(map(float, parts[1:4]))
                 atomic_positions.append({
