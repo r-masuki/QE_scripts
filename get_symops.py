@@ -8,6 +8,7 @@ from spinspg import get_spin_symmetry
 from ase import Atoms
 from ase.io import read
 import re
+import sys
 
 
 def strip_comment(line):
@@ -180,9 +181,12 @@ def get_noncol_magmoms(qe_namelists, qe_cards):
     return magmoms
 
 # parse input file of quantum espresso
-filename = "pw.Mn3Sn.scf.in"
+args = sys.argv
+filename = args[1]
+
 qe_namelists = parse_namelist(filename, ["control", "system", "electrons"])
 qe_cards = parse_qe_cards(filename)
+print(qe_namelists)
 
 # print(qe_namelists["system"].keys())
 # print(qe_cards["atomic_species"])
