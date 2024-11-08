@@ -223,20 +223,31 @@ nsym = len(dataset_as_noncollinear["rotations"])
 
 # print space group information
 # print("magnetic spacegroup type : ", magnetic_spacegroup_type)
-print("number of symmetry operations : ", nsym)
+
+pattern_tmp = re.compile(r'[\[\]]')
+
+print("number of symmetry operations : \n", nsym)
+
 for isym in range(nsym):
     print("Symmetry operation : ", isym)
-    print("Rotation :")
-    print(dataset_as_noncollinear["rotations"][isym])
-    print("Rotation in Cartesian coordinates :")
-    print(np.dot(Amat.transpose(), 
-          np.dot(dataset_as_noncollinear["rotations"][isym], 
-          Ainv.transpose())))
+    print("Rotation in real space (fractional):")
+    print(re.sub(pattern_tmp, " ", 
+                 str(dataset_as_noncollinear["rotations"][isym])))
     
     print("Translation :")
-    print(dataset_as_noncollinear["translations"][isym])
+    print(re.sub(pattern_tmp, " ", 
+                 str(dataset_as_noncollinear["translations"][isym]))
+    )
 
-    print("Time reversal :", dataset_as_noncollinear["time_reversals"][isym])
+    print("Rotation in spin space (Cartesian) :")
+    print(re.sub(pattern_tmp, " ", 
+                 str(np.dot(Amat.transpose(), 
+                 np.dot(dataset_as_noncollinear["rotations"][isym], 
+                 Ainv.transpose())))
+                 )
+    )
+
+    print("Time reversal : \n", str(dataset_as_noncollinear["time_reversals"][isym]))
 
 
 # Find spin symmetry operations
@@ -245,7 +256,7 @@ sog, rotations, translations, spin_rotations = get_spin_symmetry(
 )
 nsym = len(rotations)
 
-print(f"Spin-only group: {sog}")
+"""print(f"Spin-only group: {sog}")
 
 # Some operations have nontrivial spin rotations
 for isym in range(nsym):
@@ -255,4 +266,4 @@ for isym in range(nsym):
     print("Translation :")
     print(translations[isym])
     print("Spin rotation :")
-    print(spin_rotations[isym])
+    print(spin_rotations[isym])"""
